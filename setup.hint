@@ -1,0 +1,4 @@
+category: Net
+requires: cygwin libgadu3 libjpeg62 libncurses8 zlib
+sdesc: "Experimental Gadu-Gadu client (frontend)"
+ldesc: "Experimental Gadu-Gadu client library and console frontend."

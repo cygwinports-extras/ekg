@@ -1,0 +1,109 @@
+ekg
+------------------------------------------
+Experimental Gadu-Gadu client library and console frontend.
+
+Runtime requirements:
+  cygwin-1.5.20-1
+  libjpeg62-6b-11
+  libncurses8-5.5-2
+  openssl-0.9.8b-1
+  zlib-1.2.3-1
+
+Build requirements:
+(besides corresponding -devel packages)
+  cygwin-1.5.21-1
+  autoconf2.5-2.59-2
+  binutils-20050610-1
+  cygport-0.2.4-1
+  gawk-3.1.5-2
+  gcc-core-3.4.4-1
+  make-3.81-1
+  sed-4.1.5-1
+
+Canonical website:
+  http://dev.null.pl/ekg/
+
+Canonical download:
+  http://dev.null.pl/ekg/download.php
+
+-------------------------------------------
+
+Build instructions:
+  unpack ekg-1.6-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./ekg-1.6-X.cygport all
+
+This will create:
+  /usr/src/ekg-1.6-X-src.tar.bz2
+  /usr/src/ekg-1.6-X.tar.bz2
+  /usr/src/libgadu-devel-1.6-X.tar.bz2
+  /usr/src/libgadu3-1.6-X.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary package:
+
+  /usr/bin/ekg.exe
+  /usr/share/doc/Cygwin/ekg-1.6.README
+  /usr/share/doc/ekg-1.6/7thguard.txt
+  /usr/share/doc/ekg-1.6/ChangeLog
+  /usr/share/doc/ekg-1.6/FAQ
+  /usr/share/doc/ekg-1.6/IDEAS-2.0
+  /usr/share/doc/ekg-1.6/README
+  /usr/share/doc/ekg-1.6/TODO
+  /usr/share/doc/ekg-1.6/ULOTKA
+  /usr/share/doc/ekg-1.6/api.txt
+  /usr/share/doc/ekg-1.6/dcc.txt
+  /usr/share/doc/ekg-1.6/devel-hints.txt
+  /usr/share/doc/ekg-1.6/files.txt
+  /usr/share/doc/ekg-1.6/gdb.txt
+  /usr/share/doc/ekg-1.6/przenosny-kod.txt
+  /usr/share/doc/ekg-1.6/python.txt
+  /usr/share/doc/ekg-1.6/sim.txt
+  /usr/share/doc/ekg-1.6/slownik.txt
+  /usr/share/doc/ekg-1.6/themes.txt
+  /usr/share/doc/ekg-1.6/ui-ncurses.txt
+  /usr/share/doc/ekg-1.6/ui.txt
+  /usr/share/doc/ekg-1.6/vars.txt
+  /usr/share/doc/ekg-1.6/voip.txt
+  /usr/share/ekg/themes/arim.theme
+  /usr/share/ekg/themes/dj.theme
+  /usr/share/ekg/themes/eileen.theme
+  /usr/share/ekg/themes/emers.theme
+  /usr/share/ekg/themes/feeg.theme
+  /usr/share/ekg/themes/irc.theme
+  /usr/share/ekg/themes/jamzed.theme
+  /usr/share/ekg/themes/klith.theme
+  /usr/share/ekg/themes/krzyk.theme
+  /usr/share/ekg/themes/lcamtuf.theme
+  /usr/share/ekg/themes/leon.theme
+  /usr/share/ekg/themes/matik.theme
+  /usr/share/ekg/themes/old.theme
+  /usr/share/ekg/themes/sic.theme
+  /usr/share/ekg/themes/tohver.theme
+  /usr/share/ekg/vars.txt
+  /usr/share/man/man1/ekg.1.gz
+  /usr/share/man/pl/man1/ekg.1.gz
+
+(libgadu3)
+  /usr/bin/cyggadu-3.dll
+
+(libgadu-devel)
+  /usr/include/libgadu-config.h
+  /usr/include/libgadu.h
+  /usr/lib/libgadu.a
+  /usr/lib/libgadu.dll.a
+  /usr/lib/pkgconfig/libgadu.pc
+
+------------------
+
+Port Notes:
+
+----- version 1.6-1 -----
+Initial release for Cygwin.
+
+
+Cygwin port maintained by:
+http://cygwinports.dotsrc.org/
