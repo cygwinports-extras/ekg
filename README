@@ -3,10 +3,10 @@ ekg
 Experimental Gadu-Gadu client library and console frontend.
 
 Runtime requirements:
-  cygwin-1.5.20-1
+  cygwin-1.5.21-1
+  libgsm0-1.0.12-1
   libjpeg62-6b-11
   libncurses8-5.5-2
-  openssl-0.9.8b-1
   zlib-1.2.3-1
 
 Build requirements:
@@ -100,6 +100,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 1.6-2 -----
+Rebuilt without openssl for GPL compatibility and with GSM VOIP support.
 
 ----- version 1.6-1 -----
 Initial release for Cygwin.
