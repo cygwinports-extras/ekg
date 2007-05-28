@@ -1,0 +1,29 @@
+DESCRIPTION="Experimental Gadu-Gadu client (incl. libgadu)"
+HOMEPAGE="http://ekg.chmurka.net/"
+SRC_URI="http://ekg.chmurka.net/${P}.tar.gz"
+
+#PKG_NAMES="${PN} libgadu3 libgadu-devel"
+#PKG_HINTS='setup lib devel'
+#PKG_CONTENTS[0]='--exclude=*.dll usr/bin/ usr/share/'
+#PKG_CONTENTS[1]='usr/bin/*.dll'
+#PKG_CONTENTS[2]='usr/include/ usr/lib/'
+
+src_compile() {
+	cd ${S}
+	ACLOCAL='aclocal -I m4' cygautoreconf
+	lndirs
+	cd ${B}
+	cygconf --disable-shared --disable-dynamic --with-ncurses \
+		--without-termcap --with-pthread --enable-libgadu-openssl
+	cygmake
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	# provided by libgadu
+	rm -fr ${D}/usr/{include,lib}/
+
+	dodoc docs/[A-Z]* docs/*.txt
+}

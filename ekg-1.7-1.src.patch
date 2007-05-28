@@ -1,0 +1,101 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/ekg-1.7/configure.in src/ekg-1.7/configure.in
+--- origsrc/ekg-1.7/configure.in	2007-03-11 07:27:04.000000000 -0500
++++ src/ekg-1.7/configure.in	2007-05-27 15:25:21.408000300 -0500
+@@ -455,6 +455,13 @@
+ 			AC_DEFINE(HAVE_VOIP, 1, [define if you want VOIP support])
+ 			LDFLAGS="-lgsm $LDFLAGS"
+ 			OBJS="$OBJS voice.o"
++		], [
++			AC_CHECK_HEADERS(sys/soundcard.h,
++			[
++				AC_DEFINE(HAVE_VOIP, 1, [define if you want VOIP support])
++				LDFLAGS="-lgsm $LDFLAGS"
++				OBJS="$OBJS voice.o"
++			])
+ 		])
+ 	fi
+ fi
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/ekg-1.7/lib/Makefile.in src/ekg-1.7/lib/Makefile.in
+--- origsrc/ekg-1.7/lib/Makefile.in	2006-04-18 14:05:11.000000000 -0500
++++ src/ekg-1.7/lib/Makefile.in	2007-05-27 15:25:21.423640900 -0500
+@@ -2,6 +2,7 @@
+ 
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
++bindir = @bindir@
+ libdir = @libdir@
+ includedir = @includedir@
+ 
+@@ -25,9 +26,8 @@
+ LOBJS = common.lo libgadu.lo pubdir.lo http.lo dcc.lo events.lo pubdir50.lo obsolete.lo
+ SRCS = $(OBJS:.o=.c)
+ 
+-SHAREDMM = libgadu.so
+-SHAREDM = $(SHAREDMM).$(VERSION_MAJOR)
+-SHARED = $(SHAREDM).$(VERSION_MINOR)
++SHAREDMM = libgadu.dll.a
++SHARED = cyggadu-$(VERSION_MAJOR).dll
+ STATIC = libgadu.a
+ 
+ all:	@static@ @shared@
+@@ -51,14 +51,12 @@
+ #
+ 
+ %.lo:	%.c
+-	$(CC) -c $(CPPFLAGS) $(CFLAGS) -fPIC $< -o $@
++	$(CC) -c $(CPPFLAGS) $(CFLAGS) -DPIC $< -o $@
+ 
+ shared:	dep $(SHARED)
+ 
+ $(SHARED): $(LOBJS)
+-	$(CC) -shared -Wl,-soname,libgadu.so.$(VERSION_MAJOR) -o $(SHARED) $(LOBJS) $(LIBS) -lc
+-	$(LN_S) -f $(SHARED) $(SHAREDM)
+-	$(LN_S) -f $(SHARED) $(SHAREDMM)
++	$(CC) -shared -Wl,--enable-auto-image-base -Wl,--out-implib,$(SHAREDMM) -o $(SHARED) $(LOBJS) $(LIBS) -lc
+ 
+ #
+ 
+@@ -81,12 +79,12 @@
+ 	$(INSTALL) -m 644 libgadu.pc $(DESTDIR)$(libdir)/pkgconfig
+ 
+ install-shared:	install-common @strip_libgadu_so@
+-	$(INSTALL) -m 755 $(SHARED) $(DESTDIR)$(libdir)
+-	cd $(DESTDIR)$(libdir) && $(LN_S) -f $(SHARED) $(SHAREDM)
+-	cd $(DESTDIR)$(libdir) && $(LN_S) -f $(SHARED) $(SHAREDMM)
++	$(INSTALL) -d $(DESTDIR)$(bindir)
++	$(INSTALL) -m 755 $(SHARED) $(DESTDIR)$(bindir)
++	$(INSTALL) -m 644 $(SHAREDMM) $(DESTDIR)$(libdir)
+ 
+ install-static:	install-common
+-	$(INSTALL) -m 755 $(STATIC) $(DESTDIR)$(libdir)
++	$(INSTALL) -m 644 $(STATIC) $(DESTDIR)$(libdir)
+ 
+ strip-libgadu-so:
+ 	$(STRIP) $(SHARED)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/ekg-1.7/m4/acx_pthread.m4 src/ekg-1.7/m4/acx_pthread.m4
+--- origsrc/ekg-1.7/m4/acx_pthread.m4	2005-11-02 15:39:49.000000000 -0600
++++ src/ekg-1.7/m4/acx_pthread.m4	2007-05-27 15:25:21.439281500 -0500
+@@ -210,7 +210,7 @@
+ 		# FIXME: -fPIC is required for -shared on many architectures,
+ 		# so we specify it here, but the right way would probably be to
+ 		# properly detect whether it is actually required.
+-		CFLAGS="-shared -fPIC -Wl,-z,defs $CFLAGS $PTHREAD_CFLAGS"
++		CFLAGS="-shared $CFLAGS $PTHREAD_CFLAGS"
+ 		LIBS="$PTHREAD_LIBS $LIBS"
+ 		CC="$PTHREAD_CC"
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/ekg-1.7/src/voice.c src/ekg-1.7/src/voice.c
+--- origsrc/ekg-1.7/src/voice.c	2007-03-11 07:27:24.000000000 -0500
++++ src/ekg-1.7/src/voice.c	2007-05-27 15:25:21.454922100 -0500
+@@ -21,7 +21,11 @@
+ #include "config.h"
+ 
+ #include <sys/ioctl.h>
++#ifdef __CYGWIN__
++#include <sys/soundcard.h>
++#else
+ #include <linux/soundcard.h>
++#endif
+ 
+ #include <fcntl.h>
+ #include <gsm.h>
