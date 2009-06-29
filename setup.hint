@@ -1,4 +1,4 @@
 category: Net
-requires: cygwin libgsm0 libungif4 libncurses8 openssl zlib
+requires: libgsm0 libungif4 libncurses8 openssl zlib
 sdesc: "Experimental Gadu-Gadu client"
 ldesc: "Experimental Gadu-Gadu client"
